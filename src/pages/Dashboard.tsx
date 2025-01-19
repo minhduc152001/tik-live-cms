@@ -5,9 +5,18 @@ import React, { useEffect, useState } from "react";
 import api from "../api/api";
 import dayjs from "dayjs";
 
+type User = {
+  id: string;
+  email: string;
+  phone: string;
+  role: "admin" | "user";
+  subscription_expired_at: Date;
+  tiktok_ids: string[];
+  created_at: Date;
+};
+
 const Dashboard: React.FC = () => {
-  const [userData, setUserData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<User | null>(null);
 
   const fetchUserData = async () => {
     try {
@@ -15,8 +24,6 @@ const Dashboard: React.FC = () => {
       setUserData(response.data);
     } catch (error) {
       console.error("Failed to fetch user data:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -37,7 +44,7 @@ const Dashboard: React.FC = () => {
         </Header>
         <Content style={{ margin: "16px" }}>
           <Space direction="vertical" style={{ width: "100%" }} size="large">
-            {loading ? (
+            {!userData ? (
               <Card loading />
             ) : (
               <Card>
@@ -64,8 +71,8 @@ const Dashboard: React.FC = () => {
                   </div>
                   <div>
                     <b>Account Created At:</b>{" "}
-                    {userData?.createdAt
-                      ? dayjs(userData?.createdAt).format("DD/MM/YYYY HH:mm")
+                    {userData?.created_at
+                      ? dayjs(userData?.created_at).format("DD/MM/YYYY HH:mm")
                       : "N/A"}
                   </div>
                 </Space>

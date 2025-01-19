@@ -7,7 +7,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4173:4173"
-    volumes:
-      - .:/app
-      - /app/node_modules
     command: ["npm", "run", "preview"]

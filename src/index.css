@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ant-layout-sider-trigger {
+    background: #9c9c9c !important;
+}

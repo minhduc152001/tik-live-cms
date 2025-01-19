@@ -1,0 +1,122 @@
+import React, { useEffect, useState } from "react";
+import { Table, message } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import api from "../api/api";
+import dayjs from "dayjs";
+
+interface Receipt {
+  id: string;
+  bank_code: string;
+  account_number: string;
+  amount_per_month: number;
+  subscription_months: number;
+  bank_name: string;
+  user_email: string;
+  payment_description: string;
+  total_amount: number;
+  created_at: string;
+}
+
+const ReceiptList: React.FC = () => {
+  const [receipts, setReceipts] = useState<Receipt[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+
+  const columns: ColumnsType<Receipt> = [
+    {
+      title: "Bank Code",
+      dataIndex: "bank_code",
+      key: "bank_code",
+    },
+    {
+      title: "Bank Name",
+      dataIndex: "bank_name",
+      key: "bank_name",
+    },
+    {
+      title: "Account Number",
+      dataIndex: "account_number",
+      key: "account_number",
+    },
+    {
+      title: "User Email",
+      dataIndex: "user_email",
+      key: "user_email",
+    },
+    {
+      title: "Amount per month",
+      dataIndex: "amount_per_month",
+      key: "amount_per_month",
+      render: (amount) => amount.toLocaleString(),
+    },
+    {
+      title: "Total Months",
+      dataIndex: "subscription_months",
+      key: "subscription_months",
+    },
+    {
+      title: "Total Amount",
+      dataIndex: "total_amount",
+      key: "total_amount",
+      render: (amount) => amount.toLocaleString(),
+    },
+    {
+      title: "Payment Description",
+      dataIndex: "payment_description",
+      key: "payment_description",
+    },
+    {
+      title: "Created At",
+      dataIndex: "created_at",
+      key: "created_at",
+      render: (dateString) => dayjs(dateString).format("YYYY-MM-DD HH:mm:ss"),
+    },
+  ];
+
+  useEffect(() => {
+    const fetchReceipts = async () => {
+      setLoading(true);
+      try {
+        const { data } = await api.get("/qr");
+        setReceipts(data);
+      } catch (error) {
+        console.error("Error fetching receipts:", error);
+        message.error("Failed to fetch receipts.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReceipts();
+  }, []);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const displayedReceipts = receipts.slice(startIndex, endIndex);
+
+  return (
+    <div>
+      <Table
+        loading={loading}
+        columns={columns}
+        dataSource={displayedReceipts}
+        pagination={{
+          current: currentPage,
+          pageSize,
+          onChange: handlePageChange,
+          total: receipts.length,
+        }}
+        style={{ marginTop: 20 }}
+        rowKey="id"
+        scroll={{ x: "max-content" }}
+      />
+    </div>
+  );
+};
+
+export default ReceiptList;

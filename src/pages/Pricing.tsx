@@ -29,23 +29,23 @@ const PricingManagement: React.FC = () => {
 
   const columns: ColumnsType<Pricing> = [
     {
-      title: "Amount/Month",
+      title: "Giá/tháng",
       dataIndex: "amount_per_month",
       key: "amount_per_month",
       render: (amount) => amount.toLocaleString(),
     },
     {
-      title: "Total TikTok IDs",
+      title: "Số lượng TikTok",
       dataIndex: "total_tiktok_ids",
       key: "total_tiktok_ids",
     },
     {
-      title: "Total Months",
+      title: "Số tháng",
       dataIndex: "total_months",
       key: "total_months",
     },
     {
-      title: "Actions",
+      title: "Khác",
       key: "actions",
       render: (_, record) => (
         <>

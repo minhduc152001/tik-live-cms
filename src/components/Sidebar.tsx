@@ -7,6 +7,7 @@ import {
   LogoutOutlined,
   MessageOutlined,
   MoneyCollectOutlined,
+  QrcodeOutlined,
   TransactionOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -56,7 +57,7 @@ function Sidebar() {
     },
     {
       key: "banks",
-      title: "Banks",
+      title: "Ngân hàng CK",
       icon: <BankOutlined />,
       onClick: () => {
         setSelectedKey("banks");
@@ -65,7 +66,7 @@ function Sidebar() {
     },
     {
       key: "balance-movements",
-      title: "Balances",
+      title: "Biến động Số dư",
       icon: <TransactionOutlined />,
       onClick: () => {
         setSelectedKey("balance-movements");
@@ -74,7 +75,7 @@ function Sidebar() {
     },
     {
       key: "receipts",
-      title: "Receipts",
+      title: "Phiếu thu",
       icon: <ContainerOutlined />,
       onClick: () => {
         setSelectedKey("receipts");
@@ -83,7 +84,7 @@ function Sidebar() {
     },
     {
       key: "invoices",
-      title: "Invoices",
+      title: "Hoá đơn",
       icon: <MoneyCollectOutlined />,
       onClick: () => {
         setSelectedKey("invoices");
@@ -109,8 +110,17 @@ function Sidebar() {
       },
     },
     {
+      key: "test-qr",
+      title: "Test QR",
+      icon: <QrcodeOutlined />,
+      onClick: () => {
+        setSelectedKey("test-qr");
+        navigate("/test-qr");
+      },
+    },
+    {
       key: "logout",
-      title: "Logout",
+      title: "Đăng xuất",
       icon: <LogoutOutlined />,
       onClick: () => {
         localStorage.removeItem("authToken");

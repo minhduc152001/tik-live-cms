@@ -1,3 +1,4 @@
+import { Avatar, Button, Input, List } from "antd";
 import React, { useState } from "react";
 import useWebSocket from "react-use-websocket";
 
@@ -40,55 +41,43 @@ function LiveChat() {
   return (
     <div style={{ padding: "20px" }}>
       <h1>Test Live Chat</h1>
-      <div>
-        <input
+      <div
+        style={{
+          display: "flex",
+          gap: "8px",
+          alignItems: "center",
+          padding: "0 40px",
+        }}
+      >
+        <Input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Enter TikTok username"
         />
-        <button onClick={handleConnect}>Connect</button>
+        <Button onClick={handleConnect}>Connect</Button>
       </div>
-      <div
-        style={{
-          border: "1px solid black",
-          padding: "10px",
-          height: "300px",
-          overflowY: "scroll",
-          marginTop: "20px",
-        }}
-      >
-        <div
-          style={{
-            border: "1px solid black",
-            padding: "10px",
-            height: "300px",
-            overflowY: "scroll",
-            marginTop: "20px",
-          }}
-        >
-          {comments.map((comment, index) => (
-            <div
-              key={index}
-              style={{ borderBottom: "1px solid #ddd", padding: "10px" }}
-            >
-              <img
-                src={comment.profile_picture_url}
-                alt={`${comment.customer_name}'s avatar`}
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                  marginRight: "10px",
-                }}
+      {comments?.length ? (
+        <List
+          itemLayout="horizontal"
+          dataSource={comments}
+          renderItem={(comment) => (
+            <List.Item>
+              <List.Item.Meta
+                avatar={<Avatar src={comment.profile_picture_url} />}
+                title={
+                  <div>
+                    {comment.customer_name} (ID: {comment.customer_tiktok_id})
+                  </div>
+                }
+                description={comment.comment}
               />
-              <strong>{comment.customer_name}</strong>{" "}
-              <span style={{ color: "#555" }}>({comment.customer_tiktok_id})</span>
-              <p>{comment.comment}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+            </List.Item>
+          )}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

@@ -21,22 +21,22 @@ const BankManagement: React.FC = () => {
 
   const columns: ColumnsType<Bank> = [
     {
-      title: "Bank Code",
+      title: "Mã NH",
       dataIndex: "bank_code",
       key: "bank_code",
     },
     {
-      title: "Bank Name",
+      title: "Tên NH",
       dataIndex: "bank_name",
       key: "bank_name",
     },
     {
-      title: "Account Number",
+      title: "STK",
       dataIndex: "bank_account_number",
       key: "bank_account_number",
     },
     {
-      title: "Actions",
+      title: "Khác",
       key: "actions",
       render: (_, record) => (
         <>

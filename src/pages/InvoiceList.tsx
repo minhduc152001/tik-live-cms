@@ -24,33 +24,33 @@ const Invoices: React.FC = () => {
 
   const columns: ColumnsType<Invoice> = [
     {
-      title: "Invoice ID",
+      title: "Mã HĐ",
       dataIndex: "invoice_id",
       key: "invoice_id",
     },
     {
-      title: "Customer",
+      title: "Khách hàng",
       dataIndex: "customer",
       key: "customer",
     },
     {
-      title: "Vendor",
+      title: "ĐV Cung cấp",
       dataIndex: "vendor",
       key: "vendor",
     },
     {
-      title: "Amount per month",
+      title: "Giá/tháng",
       dataIndex: "amount_per_month",
       key: "amount_per_month",
       render: (amount) => amount.toLocaleString(), // Format with commas
     },
     {
-      title: "Total Months",
+      title: "Số tháng",
       dataIndex: "subscription_months",
       key: "subscription_months",
     },
     {
-      title: "Total Amount",
+      title: "Tổng tiền",
       dataIndex: "total_amount",
       key: "total_amount",
       render: (amount) => amount.toLocaleString(), // Format with commas
@@ -61,7 +61,7 @@ const Invoices: React.FC = () => {
       key: "VAT",
     },
     {
-      title: "Created At",
+      title: "Thời gian",
       dataIndex: "created_at",
       key: "created_at",
       render: (dateString) => dayjs(dateString).format("YYYY-MM-DD HH:mm:ss"),

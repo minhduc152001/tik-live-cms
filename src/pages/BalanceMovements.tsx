@@ -21,30 +21,30 @@ const BalanceMovements: React.FC = () => {
 
   const columns: ColumnsType<BalanceMovement> = [
     {
-      title: "Account Number",
+      title: "STK",
       dataIndex: "account_number",
       key: "account_number",
     },
     {
-      title: "Amount",
+      title: "Số tiền",
       dataIndex: "amount",
       key: "amount",
       render: (amount) => amount.toLocaleString(),
     },
     {
-      title: "Transaction Time",
+      title: "Thời gian CK",
       dataIndex: "transaction_time",
       key: "transaction_time",
       render: (dateString) => dayjs(dateString).format("YYYY-MM-DD HH:mm:ss"),
     },
     {
-      title: "Current Balance",
+      title: "Số dư hiện tại",
       dataIndex: "current_balance",
       key: "current_balance",
       render: (balance) => balance.toLocaleString(),
     },
     {
-      title: "Payment Description",
+      title: "Nội dung CK",
       dataIndex: "payment_description",
       key: "payment_description",
       render: (desc: string) => (

@@ -19,6 +19,7 @@ import ReceiptList from "./pages/ReceiptList";
 import Invoices from "./pages/InvoiceList";
 import PricingManagement from "./pages/Pricing";
 import LiveChat from "./pages/LiveChat";
+import TestQR from "./pages/TestQR";
 
 const App: React.FC = () => {
   const isAuthenticated = !!localStorage.getItem("authToken"); // Check if token exists
@@ -115,6 +116,13 @@ const App: React.FC = () => {
                 path="/test-live-chat"
                 element={
                   isAuthenticated ? <LiveChat /> : <Navigate to="/login" />
+                }
+              />
+
+              <Route
+                path="/test-qr"
+                element={
+                  isAuthenticated ? <TestQR /> : <Navigate to="/login" />
                 }
               />
 

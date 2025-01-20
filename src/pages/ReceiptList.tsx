@@ -25,49 +25,49 @@ const ReceiptList: React.FC = () => {
 
   const columns: ColumnsType<Receipt> = [
     {
-      title: "Bank Code",
+      title: "Mã NH",
       dataIndex: "bank_code",
       key: "bank_code",
     },
     {
-      title: "Bank Name",
+      title: "Tên NH",
       dataIndex: "bank_name",
       key: "bank_name",
     },
     {
-      title: "Account Number",
+      title: "STK",
       dataIndex: "account_number",
       key: "account_number",
     },
     {
-      title: "User Email",
+      title: "Khách hàng",
       dataIndex: "user_email",
       key: "user_email",
     },
     {
-      title: "Amount per month",
+      title: "Giá/tháng",
       dataIndex: "amount_per_month",
       key: "amount_per_month",
       render: (amount) => amount.toLocaleString(),
     },
     {
-      title: "Total Months",
+      title: "Số tháng",
       dataIndex: "subscription_months",
       key: "subscription_months",
     },
     {
-      title: "Total Amount",
+      title: "Tổng tiền",
       dataIndex: "total_amount",
       key: "total_amount",
       render: (amount) => amount.toLocaleString(),
     },
     {
-      title: "Payment Description",
+      title: "Nội dung",
       dataIndex: "payment_description",
       key: "payment_description",
     },
     {
-      title: "Created At",
+      title: "Thời gian",
       dataIndex: "created_at",
       key: "created_at",
       render: (dateString) => dayjs(dateString).format("YYYY-MM-DD HH:mm:ss"),

@@ -34,7 +34,7 @@ function LiveChat() {
 
   const handleConnect = () => {
     if (username) {
-      setSocketUrl(`ws://localhost:8000/api/v1/ws/${username}`);
+      setSocketUrl(`${import.meta.env.VITE_WS_URL}/${username}`);
     }
   };
 

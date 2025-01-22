@@ -127,7 +127,7 @@ const TestQR: React.FC = () => {
       </Form>
 
       <div style={{ fontStyle: "italic", fontWeight: "bold" }}>
-        API nhận webhook tại: {import.meta.env.VITE_API_BASE_URL}/webhook
+        API nhận webhook tại: https://webhook.84pos.vn/api/v1/webhook/
       </div>
 
       {qrData && (

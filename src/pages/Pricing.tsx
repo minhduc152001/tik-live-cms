@@ -13,8 +13,7 @@ import api from "../api/api";
 
 interface Pricing {
   id: string;
-  amount_per_month: number;
-  total_tiktok_ids: number;
+  total_month_cost: number;
   total_months: number;
 }
 
@@ -29,15 +28,10 @@ const PricingManagement: React.FC = () => {
 
   const columns: ColumnsType<Pricing> = [
     {
-      title: "Giá/tháng",
-      dataIndex: "amount_per_month",
-      key: "amount_per_month",
+      title: "Tổng tiền",
+      dataIndex: "total_month_cost",
+      key: "total_month_cost",
       render: (amount) => amount.toLocaleString(),
-    },
-    {
-      title: "Số lượng TikTok",
-      dataIndex: "total_tiktok_ids",
-      key: "total_tiktok_ids",
     },
     {
       title: "Số tháng",
@@ -50,16 +44,16 @@ const PricingManagement: React.FC = () => {
       render: (_, record) => (
         <>
           <Button type="link" onClick={() => showModal(record)}>
-            Edit
+            Sửa
           </Button>
           <Popconfirm
-            title="Are you sure to delete this pricing?"
+            title="Bạn có chắc muốn xoá?"
             onConfirm={() => handleDelete(record.id)}
-            okText="Yes"
-            cancelText="No"
+            okText="Có"
+            cancelText="Không"
           >
             <Button type="link" danger>
-              Delete
+              Xoá
             </Button>
           </Popconfirm>
         </>
@@ -78,7 +72,7 @@ const PricingManagement: React.FC = () => {
       setPricingList(data);
     } catch (error) {
       console.error("Error fetching pricing:", error);
-      message.error("Failed to fetch pricing.");
+      message.error("Lỗi lấy dữ liệu.");
     } finally {
       setLoading(false);
     }
@@ -107,11 +101,11 @@ const PricingManagement: React.FC = () => {
               : pricing
           )
         );
-        message.success("Pricing updated successfully!");
+        message.success("Cập nhật thành công!");
       } else {
         const { data } = await api.post("/pricing", values);
         setPricingList((prevPricing) => [...prevPricing, data]);
-        message.success("Pricing added successfully!");
+        message.success("Thêm mới thành công!");
       }
 
       setIsModalOpen(false);
@@ -120,7 +114,7 @@ const PricingManagement: React.FC = () => {
       fetchPricing();
     } catch (error) {
       console.error("Error saving pricing:", error);
-      message.error("Failed to save pricing.");
+      message.error("Lỗi xảy ra khi thêm gói mới.");
     } finally {
       setLoading(false);
     }
@@ -138,10 +132,10 @@ const PricingManagement: React.FC = () => {
       setPricingList((prevPricing) =>
         prevPricing.filter((pricing) => pricing.id !== id)
       );
-      message.success("Pricing deleted successfully!");
+      message.success("Xoá thành công!");
     } catch (error) {
       console.error("Error deleting pricing:", error);
-      message.error("Failed to delete pricing.");
+      message.error("Lỗi xảy ra khi xoá gói mới.");
     }
   };
 
@@ -156,7 +150,7 @@ const PricingManagement: React.FC = () => {
   return (
     <div>
       <Button type="primary" onClick={() => showModal()}>
-        Add Pricing
+        Thêm gói mua
       </Button>
 
       <Table
@@ -174,34 +168,25 @@ const PricingManagement: React.FC = () => {
       />
 
       <Modal
-        title={editingPricing ? "Edit Pricing" : "Add Pricing"}
+        title={editingPricing ? "Sửa gói mua" : "Thêm gói mua"}
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
         <Form form={form} layout="vertical">
           <Form.Item
-            name="amount_per_month"
-            label="Amount per Month"
+            name="total_month_cost"
+            label="Tổng tiền"
             rules={[
-              { required: true, message: "Please enter amount per month" },
-            ]}
-          >
-            <InputNumber style={{ width: "100%" }} />
-          </Form.Item>
-          <Form.Item
-            name="total_tiktok_ids"
-            label="Total TikTok IDs"
-            rules={[
-              { required: true, message: "Please enter total TikTok IDs" },
+              { required: true, message: "Hãy nhập tổng tiền" },
             ]}
           >
             <InputNumber style={{ width: "100%" }} />
           </Form.Item>
           <Form.Item
             name="total_months"
-            label="Total Months"
-            rules={[{ required: true, message: "Please enter total months" }]}
+            label="Số tháng"
+            rules={[{ required: true, message: "Hãy nhập số tháng sử dụng" }]}
           >
             <InputNumber style={{ width: "100%" }} />
           </Form.Item>

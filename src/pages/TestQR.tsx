@@ -14,34 +14,31 @@ import { CheckCircleOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
 
+// Define the QR response type based on your backend
+interface QRResponse {
+  bank_name: string;
+  payment_description: string;
+  url: string;
+}
+
 const TestQR: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [formData, setFormData] = useState({
-    bank_code: "",
-    account_number: "",
-    amount_per_month: 100000,
-    subscription_months: 1,
-  });
-
-  const [qrData, setQrData] = useState<{
-    bank_name: string;
-    payment_description: string;
-    url: string;
-  } | null>(null);
-
+  const [form] = Form.useForm(); // Use Antd Form instance for better control
+  const [qrData, setQrData] = useState<QRResponse | null>(null);
   const [transactionSuccess, setTransactionSuccess] = useState(false);
 
-  const handleInputChange = (changedValues: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      ...changedValues,
-    }));
+  // Initial form data aligned with QRRequest
+  const initialValues = {
+    bank_code: "",
+    account_number: "",
+    total_tiktok_ids: 1,
+    total_month_cost: null,
+    total_months: null,
   };
 
-  const handleCreateQR = async () => {
+  const handleCreateQR = async (values: typeof initialValues) => {
     try {
-      const response = await api.post("/qr", formData);
+      const response = await api.post<QRResponse>("/qr", values);
       setQrData(response.data);
       message.success("Tạo mã QR thành công!");
     } catch (error) {
@@ -55,7 +52,7 @@ const TestQR: React.FC = () => {
       if (!qrData?.payment_description || transactionSuccess) return;
 
       try {
-        const response = await api.get(
+        const response = await api.get<{ transferred: boolean }>(
           `/webhook/?payment_description=${qrData.payment_description}`
         );
         if (response.data.transferred) {
@@ -72,15 +69,15 @@ const TestQR: React.FC = () => {
       const interval = setInterval(handleCheckTransaction, 2000);
       return () => clearInterval(interval);
     }
-  }, [qrData, qrData?.payment_description, transactionSuccess]);
+  }, [qrData, transactionSuccess]);
 
   return (
     <div style={{ padding: "20px" }}>
       <Title level={2}>Tạo QR chuyển khoản</Title>
       <Form
+        form={form}
         layout="vertical"
-        initialValues={formData}
-        onValuesChange={handleInputChange}
+        initialValues={initialValues}
         onFinish={handleCreateQR}
       >
         <Form.Item
@@ -88,7 +85,7 @@ const TestQR: React.FC = () => {
           name="bank_code"
           rules={[{ required: true, message: "Thiếu Mã ngân hàng" }]}
         >
-          <Input placeholder="VCB" />
+          <Input placeholder="VD: VCB" />
         </Form.Item>
         <Form.Item
           label="Số tài khoản (VD: 2390200022)"
@@ -98,26 +95,25 @@ const TestQR: React.FC = () => {
           <Input placeholder="Nhập STK" />
         </Form.Item>
         <Form.Item
-          label="Giá tiền mỗi tháng"
-          name="amount_per_month"
-          rules={[{ required: true, message: "Thiếu Số tiền mỗi tháng" }]}
+          label="Tổng số TikTok IDs muốn thêm"
+          name="total_tiktok_ids"
+          rules={[{ required: true, message: "Thiếu số TikTok IDs" }]}
         >
-          <InputNumber
-            min={1}
-            placeholder="Nhập giá"
-            style={{ width: "100%" }}
-          />
+          <InputNumber min={0} style={{ width: "100%" }} />
         </Form.Item>
         <Form.Item
-          label="Số lượng tháng"
-          name="subscription_months"
-          rules={[{ required: true, message: "Thiếu Số lượng tháng" }]}
+          label="Tổng chi phí tháng (VNĐ) (điền 0 nếu ko có)"
+          name="total_month_cost"
+          rules={[{ required: true, message: "Tổng chi phí tháng (VNĐ)" }]}
         >
-          <InputNumber
-            min={1}
-            placeholder="Nhập số tháng"
-            style={{ width: "100%" }}
-          />
+          <InputNumber min={0} style={{ width: "100%" }} />
+        </Form.Item>
+        <Form.Item
+          label="Số lượng tháng (điền 0 nếu ko có)"
+          name="total_months"
+          rules={[{ required: true, message: "Tổng số lượng tháng" }]}
+        >
+          <InputNumber min={0} style={{ width: "100%" }} />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">

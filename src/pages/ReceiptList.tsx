@@ -8,8 +8,9 @@ interface Receipt {
   id: string;
   bank_code: string;
   account_number: string;
-  amount_per_month: number;
-  subscription_months: number;
+  total_month_cost: number;
+  total_months: number;
+  total_tiktok_ids: number;
   bank_name: string;
   user_email: string;
   payment_description: string;
@@ -45,15 +46,20 @@ const ReceiptList: React.FC = () => {
       key: "user_email",
     },
     {
-      title: "Giá/tháng",
-      dataIndex: "amount_per_month",
-      key: "amount_per_month",
+      title: "Tổng giá tháng",
+      dataIndex: "total_month_cost",
+      key: "total_month_cost",
       render: (amount) => amount.toLocaleString(),
     },
     {
       title: "Số tháng",
-      dataIndex: "subscription_months",
-      key: "subscription_months",
+      dataIndex: "total_months",
+      key: "total_months",
+    },
+    {
+      title: "Số lượng ID",
+      dataIndex: "total_tiktok_ids",
+      key: "total_tiktok_ids",
     },
     {
       title: "Tổng tiền",

@@ -31,9 +31,9 @@ const TestQR: React.FC = () => {
   const initialValues = {
     bank_code: "",
     account_number: "",
-    total_tiktok_ids: 1,
-    total_month_cost: null,
-    total_months: null,
+    total_tiktok_ids: 0,
+    total_month_cost: 0,
+    total_months: 0,
   };
 
   const handleCreateQR = async (values: typeof initialValues) => {

@@ -9,8 +9,9 @@ interface Invoice {
   invoice_id: string;
   customer: string;
   vendor: string;
-  amount_per_month: number;
-  subscription_months: number;
+  total_months: number;
+  total_month_cost: number;
+  total_tiktok_ids: number;
   total_amount: number;
   VAT: string;
   created_at: string; // Keep as string, format in render
@@ -39,15 +40,20 @@ const Invoices: React.FC = () => {
       key: "vendor",
     },
     {
-      title: "Giá/tháng",
-      dataIndex: "amount_per_month",
-      key: "amount_per_month",
+      title: "Tổng giá tháng",
+      dataIndex: "total_month_cost",
+      key: "total_month_cost",
       render: (amount) => amount.toLocaleString(), // Format with commas
     },
     {
       title: "Số tháng",
-      dataIndex: "subscription_months",
-      key: "subscription_months",
+      dataIndex: "total_months",
+      key: "total_months",
+    },
+    {
+      title: "Số lượng ID",
+      dataIndex: "total_tiktok_ids",
+      key: "total_tiktok_ids",
     },
     {
       title: "Tổng tiền",

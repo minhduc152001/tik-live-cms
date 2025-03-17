@@ -10,6 +10,7 @@ import {
   Tag,
   message,
   Popconfirm,
+  InputNumber,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
@@ -25,6 +26,7 @@ interface User {
   phone: string;
   tiktok_ids: string[];
   role: "admin" | "user";
+  max_tiktok_id_slots: number;
   subscription_expired_at: string;
   createdAt: string;
 }
@@ -74,11 +76,17 @@ const UserManagement: React.FC = () => {
       };
 
       if (editingUser) {
-        const { phone, subscription_expired_at, tiktok_ids } = updatedUser;
+        const {
+          phone,
+          subscription_expired_at,
+          tiktok_ids,
+          max_tiktok_id_slots,
+        } = updatedUser;
         await api.put(`/users/admin/update/${editingUser.id}`, {
           phone,
           subscription_expired_at,
           tiktok_ids,
+          max_tiktok_id_slots,
         });
 
         setUsers((prev) =>
@@ -141,6 +149,11 @@ const UserManagement: React.FC = () => {
       dataIndex: "tiktok_ids",
       key: "tiktok_ids",
       render: (tiktok_ids) => tiktok_ids.join(", "),
+    },
+    {
+      title: "Số lượng IDs",
+      dataIndex: "max_tiktok_id_slots",
+      key: "max_tiktok_id_slots",
     },
     {
       title: "Role",
@@ -228,7 +241,7 @@ const UserManagement: React.FC = () => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <Form form={form} layout="vertical">
+        <Form form={form} layout="vertical" >
           <Form.Item
             name="email"
             label="Email"
@@ -266,6 +279,16 @@ const UserManagement: React.FC = () => {
           >
             <DatePicker showTime style={{ width: "100%" }} />
           </Form.Item>
+
+          {editingUser && (
+            <Form.Item
+              name="max_tiktok_id_slots"
+              label="Số lượng IDs tối đa"
+              rules={[{ required: true, message: "Nhập số lượng ID tối đa" }]}
+            >
+              <InputNumber min={0} />
+            </Form.Item>
+          )}
 
           {editingUser && (
             <Form.Item
